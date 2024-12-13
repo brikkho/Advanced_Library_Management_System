@@ -1,4 +1,5 @@
-from datetime import datetime
+import save_all_books 
+from datetime import datetime,timedelta
 import json
 
 def lend_book(all_books):
@@ -10,7 +11,7 @@ def lend_book(all_books):
     for book in all_books:
         if book["title"].lower() == book_title.lower():
             if book["quantity"] > 0:
-                due_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                due_date = (datetime.now()+timedelta(days=5)).strftime('%Y-%m-%d %H:%M:%S')
                 lend_info = {
                     "name": borrower_name,
                     "phone": phone_number,
@@ -23,13 +24,14 @@ def lend_book(all_books):
                 
                 # Reduce book quantity
                 book["quantity"] -= 1
-                print(f"Book '{book['title']}' has been lent to {borrower_name}. Return due date: {due_date}")
+                save_all_books.save_all_books(all_books)
+                print(f"Book '{book['title']}' has been lent to {borrower_name}. Return due date: {due_date}\n")
                 return
             else:
-                print("There are not enough books available to lend.")
+                print(f"There are not enough copies of Book '{book['title']}' available to lend.\n")
                 return
     
-    print("Book not found in the library.")
+    print("Book not found in the library.\n")
 
 def return_book(all_books):
     book_title = input("Enter the title of the book to return: ")
@@ -51,14 +53,15 @@ def return_book(all_books):
                     updated_lend_data.append(lend_info)
                     lend_file.write(entry)
     except FileNotFoundError:
-        print("No lending records found.")
+        print("No lending records found.\n")
         return
     
     if book_found:
         for book in all_books:
             if book["title"].lower() == book_title.lower():
                 book["quantity"] += 1
-                print(f"Book '{book['title']}' has been successfully returned.")
+                save_all_books.save_all_books(all_books)
+                print(f"Book '{book['title']}' has been successfully returned.\n")
                 return
     else:
-        print("No matching lending record found.")
+        print("No matching lending record found.\n")
