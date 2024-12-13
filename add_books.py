@@ -35,7 +35,7 @@ def add_books(all_books):
     all_books.append(book)
     save_all_books(all_books)
     
-    print("Books Added Successully")
+    print("Books Added Successully.\n")
     
     return all_books
     
