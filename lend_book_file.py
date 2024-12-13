@@ -10,7 +10,8 @@ def lend_books(all_books):
             return all_books
     
     print("Book Not Found")
-    
+
+"""   
 def delete_books(all_books):
     search_book = input("Enter Book Title to Delete: ")
     for book in all_books:
@@ -21,3 +22,4 @@ def delete_books(all_books):
             return all_books
     
     print("Book Not Found")
+"""
